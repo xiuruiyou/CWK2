@@ -1,14 +1,10 @@
-//
-// Created by 86186 on 2022/4/27.
-//
-
 #include <stdio.h>
 #include <intrin.h>
 
 void change() {
     int count;
-    int world[5][5] = {{0, 0, 0, 0, 0},
-                       {0, 0, 1, 0, 0},
+    int world[5][5] = {{1, 1, 0, 0, 0},
+                       {0, 0, 0, 0, 0},
                        {1, 0, 1, 0, 0},
                        {0, 1, 1, 0, 0},
                        {0, 0, 0, 0, 0}};
