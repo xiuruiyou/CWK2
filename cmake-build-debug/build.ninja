@@ -52,12 +52,14 @@ build cmake_object_order_depends_target_CWK2: phony || CMakeFiles/CWK2.dir
 build CMakeFiles/CWK2.dir/main.c.obj: C_COMPILER__CWK2_Debug C$:/Users/86186/CLionProjects/CWK2/main.c || cmake_object_order_depends_target_CWK2
   DEP_FILE = CMakeFiles\CWK2.dir\main.c.obj.d
   FLAGS = -g -std=gnu99
+  INCLUDES = -IC:/Users/86186/CLionProjects/CWK2/SDL
   OBJECT_DIR = CMakeFiles\CWK2.dir
   OBJECT_FILE_DIR = CMakeFiles\CWK2.dir
 
 build CMakeFiles/CWK2.dir/evolution.c.obj: C_COMPILER__CWK2_Debug C$:/Users/86186/CLionProjects/CWK2/evolution.c || cmake_object_order_depends_target_CWK2
   DEP_FILE = CMakeFiles\CWK2.dir\evolution.c.obj.d
   FLAGS = -g -std=gnu99
+  INCLUDES = -IC:/Users/86186/CLionProjects/CWK2/SDL
   OBJECT_DIR = CMakeFiles\CWK2.dir
   OBJECT_FILE_DIR = CMakeFiles\CWK2.dir
 
@@ -71,7 +73,7 @@ build CMakeFiles/CWK2.dir/evolution.c.obj: C_COMPILER__CWK2_Debug C$:/Users/8618
 
 build CWK2.exe: C_EXECUTABLE_LINKER__CWK2_Debug CMakeFiles/CWK2.dir/main.c.obj CMakeFiles/CWK2.dir/evolution.c.obj
   FLAGS = -g
-  LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
+  LINK_LIBRARIES = -lmingw32  -lSDL2main  -lSDL2  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\CWK2.dir
   POST_BUILD = cd .
   PRE_LINK = cd .

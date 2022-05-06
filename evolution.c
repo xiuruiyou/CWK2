@@ -1,20 +1,48 @@
 #include <stdio.h>
 #include <intrin.h>
+#include "evolution.h"
+
+int world[5][5] = {{0, 0, 0, 0, 0},
+                   {0, 0, 1, 0, 0},
+                   {1, 0, 1, 0, 0},
+                   {0, 1, 1, 0, 0},
+                   {0, 0, 0, 0, 0}};
+
+world_size initialize() {
+    FILE *file = fopen("data.txt", "r");
+    world_size size;
+    int heng = 0;
+    int shu = 0;
+    int flag;
+    if (file == NULL) {
+        printf("Open error!");
+//        return;
+    }
+//    else {
+//        printf("successfully open!\n");
+//    }
+    while (!feof(file)) {
+        flag = fgetc(file);
+        if (flag == '\n') {
+            shu++;
+//            heng++;
+        } else if (flag == ',') {
+            heng++;
+        }
+    }
+    shu++;
+//    heng++;
+//    printf("%d\n", shu);
+    heng /= shu;
+//    printf("%d\n", heng);
+    fclose(file);
+    size.heng=heng;
+    size.shu=shu;
+    return size;
+}
 
 void change() {
     int count;
-    int world[5][5] = {{1, 1, 0, 0, 0},
-                       {0, 0, 0, 0, 0},
-                       {1, 0, 1, 0, 0},
-                       {0, 1, 1, 0, 0},
-                       {0, 0, 0, 0, 0}};
-    for (int i = 0; i < 5; ++i) {
-        for (int j = 0; j < 5; ++j) {
-            printf("%d ", world[i][j]);
-        }
-        printf("\n");
-    }
-    printf("\n");
     int test[5][5];//change
     for (int i = 0; i < 5; ++i) {
         for (int j = 0; j < 5; ++j) {
