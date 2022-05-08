@@ -34,6 +34,11 @@ void change(int times) {
     row = getSize().row;
     int w[row][column];
     printf("%d,%d\n", row, column);
+    FILE *history = fopen("history.txt", "a");
+    if (history == NULL) {
+        printf("The file of history does not exist.\n");
+        return;
+    }
     FILE *file = fopen("data.txt", "r");
     if (file == NULL) {
         printf("The file does not exist.\n");
@@ -42,9 +47,12 @@ void change(int times) {
     for (int i = 0; i < row; ++i) {
         for (int j = 0; j < column; ++j) {
             fscanf(file, "%d,", &w[i][j]);
+            fprintf(history, "%d,",w[i][j]);
         }
         fscanf(file, "\n");
+        fprintf(history,"\n");
     }
+    fprintf(history, "\n");
     fclose(file);
     for (int i = 0; i < row; ++i) {
         for (int j = 0; j < column; ++j) {
@@ -58,23 +66,26 @@ void change(int times) {
         int test[row][column];//change
         for (int i = 0; i < row; ++i) {
             for (int j = 0; j < column; ++j) {
-                if(i==0&&j==0){
+                if (i == 0 && j == 0) {
                     count = w[i][j + 1] + w[i + 1][j] + w[i + 1][j + 1];
-                } else if(i==0&&j!=0&&j!=column-1){
+                } else if (i == 0 && j != 0 && j != column - 1) {
                     count = w[i][j - 1] + w[i][j + 1] + w[i + 1][j - 1] + w[i + 1][j] + w[i + 1][j + 1];
-                } else if(i==0&&j==column-1){
+                } else if (i == 0 && j == column - 1) {
                     count = w[i][j - 1] + w[i + 1][j - 1] + w[i + 1][j];
-                } else if(j==column-1&&i!=0&&i!=row-1){
+                } else if (j == column - 1 && i != 0 && i != row - 1) {
                     count = w[i - 1][j - 1] + w[i - 1][j] + w[i][j - 1] + w[i + 1][j - 1] + w[i + 1][j];
-                } else if(j==column-1&&i==row-1){
+                } else if (j == column - 1 && i == row - 1) {
                     count = w[i - 1][j - 1] + w[i - 1][j] + w[i][j - 1];
-                } else if(i==row-1&&j!=0&&j!=column-1){
+                } else if (i == row - 1 && j != 0 && j != column - 1) {
                     count = w[i - 1][j - 1] + w[i - 1][j] + w[i - 1][j + 1] + w[i][j - 1] + w[i][j + 1];
-                } else if(i==row-1&&j==0){
+                } else if (i == row - 1 && j == 0) {
                     count = w[i - 1][j] + w[i - 1][j + 1] + w[i][j + 1];
-                } else if(j==0&&i!=0&&i!=row-1){
-                    count = w[i - 1][j] + w[i - 1][j + 1] +w[i][j + 1] + w[i + 1][j] + w[i + 1][j + 1];
-                } else{count = w[i - 1][j - 1] + w[i - 1][j] + w[i - 1][j + 1] + w[i][j - 1] + w[i][j + 1] + w[i + 1][j - 1] + w[i + 1][j] + w[i + 1][j + 1];}
+                } else if (j == 0 && i != 0 && i != row - 1) {
+                    count = w[i - 1][j] + w[i - 1][j + 1] + w[i][j + 1] + w[i + 1][j] + w[i + 1][j + 1];
+                } else {
+                    count = w[i - 1][j - 1] + w[i - 1][j] + w[i - 1][j + 1] + w[i][j - 1] + w[i][j + 1] +
+                            w[i + 1][j - 1] + w[i + 1][j] + w[i + 1][j + 1];
+                }
                 switch (count) {
                     case 2:
                         test[i][j] = w[i][j];
@@ -92,9 +103,12 @@ void change(int times) {
         for (int i = 0; i < row; ++i) {
             for (int j = 0; j < column; ++j) {
                 printf("%d ", test[i][j]);
+                fprintf(history,"%d,",test[i][j]);
             }
             printf("\n");
+            fprintf(history,"\n");
         }
         printf("\n");
+        fprintf(history,"\n");
     }
 }
