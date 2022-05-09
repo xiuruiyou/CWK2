@@ -28,13 +28,15 @@ world_size getSize() {
     return size;
 }
 
-void change(int times) {
+void change(int times, char *userFileName) {
+    char USER[100];
+    strcpy(USER, userFileName);
     int column, row;
     column = getSize().column;
     row = getSize().row;
     int w[row][column];
     printf("%d,%d\n", row, column);
-    FILE *history = fopen("history.txt", "a");
+    FILE *history = fopen(USER, "w");
     if (history == NULL) {
         printf("The file of history does not exist.\n");
         return;

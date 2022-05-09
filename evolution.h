@@ -1,6 +1,6 @@
 #ifndef CWK2_EVOLUTION_H
 #define CWK2_EVOLUTION_H
-void change(int times);
+void change(int times, char *userFileName);
 typedef struct {
     int column;
     int row;

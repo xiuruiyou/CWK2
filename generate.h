@@ -7,4 +7,5 @@
 //0,0,0,0,0,
 //0,0,0,0,0,
 void generateTxt(int row, int column);
+void newGame(char *userFileName);
 #endif //EVOLUTION_C_GENERATE_H
