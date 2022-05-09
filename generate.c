@@ -3,9 +3,12 @@
 #include <string.h>
 #include "generate.h"
 #include "evolution.h"
-void generateTxt(int row, int column)
+void generateTxt(int row, int column, char *userFileName)
 {
-    FILE *file = fopen("data.txt", "w");
+    char USER[100];
+    strcpy(USER, userFileName);
+    strcat(USER, "-nowState.txt");
+    FILE *file = fopen(USER, "w");
     if(file==NULL){
         printf("Can't open the file.\n");
     }
@@ -22,6 +25,33 @@ void generateTxt(int row, int column)
     fclose(file);
 }
 
+world_size getSize(char *userFileName1) {
+    char USER1[100];
+    strcpy(USER1, userFileName1);
+    FILE *file = fopen(USER1, "r");
+    world_size size;
+    int column = 0;
+    int row = 0;
+    char flag;
+    if (file == NULL) {
+        printf("Open error!");
+    }
+    while (!feof(file)) {
+        flag = fgetc(file);
+        if (flag == '\n') {
+            row++;
+        } else if (flag == ',') {
+            column++;
+        }
+    }
+    row++;
+    column /= row;
+    fclose(file);
+    size.column = column;
+    size.row = row;
+    return size;
+}
+
 void newGame(char *userFileName)
 {
     char USER[100];
@@ -31,10 +61,22 @@ void newGame(char *userFileName)
     scanf("%d", &height);
     printf("Please enter the width of world: ");
     scanf("%d", &width);
-    generateTxt(height,width);
+    generateTxt(height,width,USER);
     printf("Please enter the times of evolution: ");
     scanf("%d", &times);
     getchar();
     printf("\n\n");
     change(times,USER);
+}
+
+void OldGame(char *userFileName)
+{
+    char USER[100];
+    strcpy(USER, userFileName);
+    int times;
+    printf("Please enter the times of evolution: ");
+    scanf("%d", &times);
+    getchar();
+    printf("\n\n");
+    GoOnGame(times,USER);
 }

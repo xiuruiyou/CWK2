@@ -18,8 +18,6 @@ void user_page(char *userFileName)
 {
     char USER[100];
     strcpy(USER, userFileName);
-    strcat(USER, "-History");
-    strcat(USER, ".txt");
     int option;
     while(1)
     {
@@ -28,13 +26,13 @@ void user_page(char *userFileName)
         //User registration.
         if( option == 1 )
         {
-            printf("1\n");
+//            printf("1\n");
             newGame(USER);
         }
             //A user logs in to the system page of the user.
         else if( option == 2 )
         {
-            printf("2\n");
+            OldGame(USER);
         }
             //Exit the program.
         else if( option == 3 )

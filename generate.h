@@ -6,6 +6,12 @@
 //0,1,1,0,0,
 //0,0,0,0,0,
 //0,0,0,0,0,
-void generateTxt(int row, int column);
+typedef struct {
+    int column;
+    int row;
+}world_size;
+void generateTxt(int row, int column, char *userFileName);
+world_size getSize(char *userFileName1);
 void newGame(char *userFileName);
+void OldGame(char *userFileName);
 #endif //EVOLUTION_C_GENERATE_H
