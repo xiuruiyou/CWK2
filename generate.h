@@ -14,4 +14,5 @@ int generateTxt(int row, int column, char *userFileName);
 world_size getSize(char *userFileName1);
 void newGame(char *userFileName);
 void OldGame(char *userFileName);
+int over(char *userFileName, int row, int column);
 #endif //EVOLUTION_C_GENERATE_H

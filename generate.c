@@ -77,7 +77,7 @@ void newGame(char *userFileName)
     getchar();
     printf("\n\n");
     change(times,USER);
-    board(USER);
+//    board(USER);
 }
 
 void OldGame(char *userFileName)
@@ -90,4 +90,29 @@ void OldGame(char *userFileName)
     getchar();
     printf("\n\n");
     GoOnGame(times,USER);
+}
+
+int over(char *userFileName, int row, int column)
+{
+    char USER1[100];
+    strcpy(USER1, userFileName);
+    FILE *file = fopen(USER1, "r");
+    if (file == NULL) {
+        printf("The file of nowState does not exist.\n");
+        return -1;
+    }
+    int count = 0;
+    int w[row][column];
+    for (int i = 0; i < row; ++i) {
+        for (int j = 0; j < column; ++j) {
+            fscanf(file, "%d,", &w[i][j]);
+            if (w[i][j] == 1){
+                count++;
+            }
+        }
+        fscanf(file, "\n");
+    }
+    if (count==0){
+        return 0;
+    } else return 1;
 }

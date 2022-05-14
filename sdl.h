@@ -11,7 +11,8 @@ bool init();
 
 //Loads media
 bool loadMedia();
-
+bool GameOverPhoto();
+int GameOver();
 //Frees media and shuts down SDL
 void close();
 

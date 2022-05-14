@@ -62,6 +62,22 @@ bool loadMedia()
     return success;
 }
 
+bool GameOverPhoto()
+{
+    //Loading success flag
+    bool success = true;
+
+    //Load splash image
+    gHelloWorld = SDL_LoadBMP( "image/GameOver.bmp" );
+    if( gHelloWorld == NULL )
+    {
+        printf( "Unable to load image %s! SDL Error: %s\n", "image/GameOver.bmp", SDL_GetError() );
+        success = false;
+    }
+
+    return success;
+}
+
 void close()
 {
     //Deallocate surface
@@ -99,7 +115,40 @@ int cover()
             SDL_UpdateWindowSurface( gWindow );
 
             //Wait two seconds
-            SDL_Delay( 2000 );
+            SDL_Delay( 1500 );
+        }
+    }
+
+    //Free resources and close SDL
+    close();
+
+    return 0;
+}
+
+int GameOver()
+{
+    //Start up SDL and create window
+    if( !init() )
+    {
+        printf( "Failed to initialize!\n" );
+    }
+    else
+    {
+        //Load media
+        if( !GameOverPhoto() )
+        {
+            printf( "Failed to load media!\n" );
+        }
+        else
+        {
+            //Apply the image
+            SDL_BlitSurface( gHelloWorld, NULL, gScreenSurface, NULL );
+
+            //Update the surface
+            SDL_UpdateWindowSurface( gWindow );
+
+            //Wait two seconds
+            SDL_Delay( 3000 );
         }
     }
 
@@ -114,47 +163,94 @@ int board(char *userFileName)
 {
     char USER1[100];
     strcpy(USER1, userFileName);
-    strcat(USER1, "-nowState.txt");
-    //The window we'll be rendering to
-    SDL_Window* window = NULL;
+//    strcat(USER1, "-nowState.txt");
+    int column = getSize(USER1).column;
+    int row = getSize(USER1).row;
+    double width = 600.0 / column;
+    double height = 600.0 / row;
+//    printf("%f, %f\n", width, height);
+    SDL_Window *sdl_window;
+    SDL_Renderer *renderer;
+    int quit = 1;
+    SDL_Event event;
+    // 0 init sdl
+    SDL_Init(SDL_INIT_VIDEO);
 
-    //The surface contained by the window
-    SDL_Surface* screenSurface = NULL;
+    //1 create window
+    sdl_window = SDL_CreateWindow("lalala",
+                                  SDL_WINDOWPOS_UNDEFINED,
+                                  SDL_WINDOWPOS_UNDEFINED,
+                                  600,
+                                  600,
+                                  SDL_WINDOW_SHOWN);
+    //2 create renderer
+    renderer = SDL_CreateRenderer(sdl_window, -1, SDL_RENDERER_SOFTWARE);
 
-    //Initialize SDL
-    if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
-    {
-        printf( "SDL could not initialize! SDL_Error: %s\n", SDL_GetError() );
+    //3 set renderer color (set background color  Blue)
+    SDL_SetRenderDrawColor(renderer, 255, 0, 255, SDL_ALPHA_OPAQUE);
+
+    //4 clear color
+    SDL_RenderClear(renderer);
+
+    //5 draw rect1
+    SDL_Rect rect1 = {0, 0, 600, 600};
+    SDL_RenderDrawRect(renderer, &rect1);
+
+    //background
+    SDL_SetRenderDrawColor(renderer, 128, 128, 128, SDL_ALPHA_OPAQUE);
+    SDL_RenderFillRect(renderer, &rect1);
+
+    // black and white
+    FILE *file = fopen(USER1, "r");
+    if (file == NULL) {
+        printf("The file of nowState does not exist.\n");
+        return -1;
     }
-    else
-    {
-        //Create window
-        window = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, getSize(USER1).column*100, getSize(USER1).row*100, SDL_WINDOW_SHOWN );
-        if( window == NULL )
-        {
-            printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
+    int w[row][column];
+    for (int i = 0; i < row; ++i) {
+        for (int j = 0; j < column; ++j) {
+            fscanf(file, "%d,", &w[i][j]);
+            SDL_Rect rect = {j*width, i*height, width-2.0, height-2.0};
+            SDL_RenderDrawRect(renderer, &rect);
+            if (w[i][j]==0){
+//                printf("white. ");
+                SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+                SDL_RenderFillRect(renderer, &rect);
+            } else if (w[i][j]==1){
+//                printf("black. ");
+                SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+                SDL_RenderFillRect(renderer, &rect);
+            }
         }
-        else
-        {
-            //Get window surface
-            screenSurface = SDL_GetWindowSurface( window );
-
-            //Fill the surface white
-            SDL_FillRect( screenSurface, NULL, SDL_MapRGB( screenSurface->format, 0xFF, 0xFF, 0xFF ) );
-
-            //Update the surface
-            SDL_UpdateWindowSurface( window );
-
-            //Wait two seconds
-            SDL_Delay( 2000 );
-        }
+        fscanf(file, "\n");
     }
 
-    //Destroy window
-    SDL_DestroyWindow( window );
+    // show window
+    SDL_RenderPresent(renderer);
 
-    //Quit SDL subsystems
+    do
+    {
+
+        SDL_WaitEvent(&event);
+        switch (event.type)
+        {
+            case SDL_QUIT:
+                quit = 0;
+                break;
+//            default:
+//                SDL_Log("event type is %d \n", event.type);
+        }
+    } while (quit);
+
+    __FAIL:
+    if (renderer)
+    {
+        SDL_DestroyRenderer(renderer);
+    }
+    if (sdl_window)
+    {
+        SDL_DestroyWindow(sdl_window);
+    }
     SDL_Quit();
-
     return 0;
 }
