@@ -10,5 +10,5 @@ typedef struct _User
 
 void login(linklist head);
 void regi(linklist head);
-void output(linklist head, char userFile[40]);
+int output(linklist head, char userFile[40]);
 #endif //EVOLUTION_C_USER_H

@@ -3,7 +3,8 @@
 #include <string.h>
 #include "generate.h"
 #include "evolution.h"
-void generateTxt(int row, int column, char *userFileName)
+#include "sdl.h"
+int generateTxt(int row, int column, char *userFileName)
 {
     char USER[100];
     strcpy(USER, userFileName);
@@ -11,6 +12,7 @@ void generateTxt(int row, int column, char *userFileName)
     FILE *file = fopen(USER, "w");
     if(file==NULL){
         printf("Can't open the file.\n");
+        return -1;
     }
     int cells;
     for (int i = 0; i < row; ++i) {
@@ -23,18 +25,26 @@ void generateTxt(int row, int column, char *userFileName)
         }
     }
     fclose(file);
+    return 0;
 }
 
-world_size getSize(char *userFileName1) {
+world_size getSize(char *userFileName1)
+{
     char USER1[100];
     strcpy(USER1, userFileName1);
     FILE *file = fopen(USER1, "r");
     world_size size;
     int column = 0;
     int row = 0;
+    world_size error;
+    int error1 = -1;
+    int error2 = -1;
+    error.row = error1;
+    error.column = error2;
     char flag;
     if (file == NULL) {
         printf("Open error!");
+        return error;
     }
     while (!feof(file)) {
         flag = fgetc(file);
@@ -67,6 +77,7 @@ void newGame(char *userFileName)
     getchar();
     printf("\n\n");
     change(times,USER);
+    board(USER);
 }
 
 void OldGame(char *userFileName)

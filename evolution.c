@@ -4,7 +4,7 @@
 #include "generate.h"
 
 //这个函数的功能有读取现在的状态并且录入历史文件，并且把每一次的变化写入历史文件。在次数用完时，再用最新的状态覆盖存放现在的状态的文件。
-void change(int times, char *userFileName)
+int change(int times, char *userFileName)
 {
     char USER[100];
     strcpy(USER, userFileName);
@@ -20,12 +20,12 @@ void change(int times, char *userFileName)
     FILE *history = fopen(USER, "w");
     if (history == NULL) {
         printf("The file of history does not exist.\n");
-        return;
+        return -1;
     }
     FILE *file = fopen(USER1, "r");
     if (file == NULL) {
-        printf("The file does not exist.\n");
-        return;
+        printf("The file of nowState does not exist.\n");
+        return -1;
     }
     for (int i = 0; i < row; ++i) {
         for (int j = 0; j < column; ++j) {
@@ -46,8 +46,8 @@ void change(int times, char *userFileName)
     printf("\n");
     FILE *file1 = fopen(USER1, "w");
     if (file1 == NULL) {
-        printf("The file does not exist.\n");
-        return;
+        printf("The file of nowState does not exist.\n");
+        return -1;
     }
     for (int k = 0; k < times; ++k) {
         int count;
@@ -107,9 +107,10 @@ void change(int times, char *userFileName)
     }
     fclose(history);
     fclose(file1);
+    return 0;
 }
 
-void GoOnGame(int times, char *userFileName)
+int GoOnGame(int times, char *userFileName)
 {
     char USER[100];
     strcpy(USER, userFileName);
@@ -125,12 +126,12 @@ void GoOnGame(int times, char *userFileName)
     FILE *history = fopen(USER, "a");
     if (history == NULL) {
         printf("The file of history does not exist.\n");
-        return;
+        return -1;
     }
     FILE *file = fopen(USER1, "r");
     if (file == NULL) {
         printf("The file does not exist.\n");
-        return;
+        return -1;
     }
     for (int i = 0; i < row; ++i) {
         for (int j = 0; j < column; ++j) {
@@ -152,7 +153,7 @@ void GoOnGame(int times, char *userFileName)
     FILE *file1 = fopen(USER1, "w");
     if (file1 == NULL) {
         printf("The file does not exist.\n");
-        return;
+        return -1;
     }
     for (int k = 0; k < times; ++k) {
         int count;
@@ -212,4 +213,5 @@ void GoOnGame(int times, char *userFileName)
     }
     fclose(history);
     fclose(file1);
+    return 0;
 }
