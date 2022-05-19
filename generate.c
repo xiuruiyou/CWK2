@@ -75,7 +75,7 @@ void newGame(char *userFileName)
     printf("Please enter the times of evolution: ");
     scanf("%d", &times);
     getchar();
-    printf("\n\n");
+    printf("\n");
     change(times,USER);
 //    board(USER);
 }
@@ -88,7 +88,7 @@ void OldGame(char *userFileName)
     printf("Please enter the times of evolution: ");
     scanf("%d", &times);
     getchar();
-    printf("\n\n");
+    printf("\n");
     GoOnGame(times,USER);
 }
 

@@ -18,4 +18,5 @@ void close();
 
 int cover();
 int board();
+bool mousePosition(int a, int b, int c, int d);
 #endif //EVOLUTION_C_SDL_H

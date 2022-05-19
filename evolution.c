@@ -130,7 +130,7 @@ int GoOnGame(int times, char *userFileName)
     column = getSize(USER1).column;
     row = getSize(USER1).row;
     int w[row][column];
-    printf("%d,%d\n", row, column);
+//    printf("%d,%d\n", row, column);
     FILE *history = fopen(USER, "a");
     if (history == NULL) {
         printf("The file of history does not exist.\n");
@@ -151,6 +151,10 @@ int GoOnGame(int times, char *userFileName)
     }
 //    fprintf(history, "\n");
     fclose(file);
+    if (over(USER1,row,column)==0){
+        printf("You must restart the game.\n");
+        return 0;
+    }
     board(USER1);
     for (int k = 0; k < times; ++k) {
         FILE *file1 = fopen(USER1, "w");
@@ -212,9 +216,9 @@ int GoOnGame(int times, char *userFileName)
         fprintf(history,"\n");
         fclose(file1);
         board(USER1);
-        if (over(USER1,row,column)==0){
-            break;
-        }
+//        if (over(USER1,row,column)==0){
+//            break;
+//        }
     }
     fclose(history);
     if (over(USER1,row,column)==0){
