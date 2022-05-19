@@ -131,10 +131,8 @@ int GameOver() {
             SDL_Delay(3000);
         }
     }
-
     //Free resources and close SDL
     close();
-
     return 0;
 }
 
@@ -199,6 +197,15 @@ int board(char *userFileName) {
         }
         fscanf(file, "\n");
     }
+    fclose(file);
+
+    for (int i = 0; i < row; ++i) {
+        for (int j = 0; j < column; ++j) {
+            printf("%d ", w[i][j]);
+        }
+        printf("\n");
+    }
+    printf("\n");
 
     // show window
     SDL_RenderPresent(renderer);
@@ -206,36 +213,102 @@ int board(char *userFileName) {
 
 
 
-
-
+//test---------------------
+//    SDL_Rect rect5 = {0, 0, 98, 98};
     bool judgePosition = false;
+    int x = 0;
+    int y = 0;
+    int xPosition = 0;
+    int yPosition = 0;
     while (!quit) {
-        SDL_Rect rect5 = {0, 0, 98, 98};
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
                 quit = true;
             }
-            else if (event.type == SDL_KEYDOWN) {
+            if (event.type == SDL_KEYDOWN) {
                 if (event.key.keysym.sym == SDLK_BACKSPACE) {
                     quit = true;
                 }
-            } else if (event.type == SDL_MOUSEMOTION) {
-                if (mousePosition(0, 100, 0, 100) == true) {
-                    judgePosition = true;
-                }
-            } else if (event.type == SDL_MOUSEBUTTONDOWN && judgePosition == true) {
-                if (event.button.button == SDL_BUTTON_LEFT) {
+            }
+            if (event.type == SDL_MOUSEMOTION) {
+                SDL_GetMouseState(&x, &y);
+//                printf("%d,%d ",x,y);
+                xPosition = x / width;
+                yPosition = y / height;
+//                printf("%d,%d ",xPosition,yPosition);
+            }
+            if (event.type == SDL_MOUSEBUTTONDOWN) {
+                if (event.button.button == SDL_BUTTON_RIGHT) {
+                    SDL_Rect rect5 = {xPosition * width, yPosition * height, width - 2.0, height - 2.0};
                     SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
                     SDL_RenderFillRect(renderer, &rect5);
                     SDL_RenderPresent(renderer);
-                } else if (event.button.button == SDL_BUTTON_RIGHT) {
+                    printf("%d %d\n", xPosition, yPosition);
+                    w[yPosition][xPosition] = 0;
+                } else if (event.button.button == SDL_BUTTON_LEFT) {
+                    SDL_Rect rect5 = {xPosition * width, yPosition * height, width - 2.0, height - 2.0};
                     SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
                     SDL_RenderFillRect(renderer, &rect5);
                     SDL_RenderPresent(renderer);
+                    w[yPosition][xPosition] = 1;
                 }
             }
         }
     }
+
+    for (int i = 0; i < row; ++i) {
+        for (int j = 0; j < column; ++j) {
+            printf("%d ", w[i][j]);
+        }
+        printf("\n");
+    }
+    printf("\n");
+
+
+    FILE *file1 = fopen(USER1, "w");
+    if (file1 == NULL) {
+        printf("The file of nowState does not exist.\n");
+        return -1;
+    }
+    for (int i = 0; i < row; ++i) {
+        for (int j = 0; j < column; ++j) {
+            fprintf(file1, "%d,",w[i][j]);
+        }
+        if(i!=row-1){
+            fprintf(file1,"\n");
+        }
+    }
+    fclose(file1);
+
+    //-----------------
+//    SDL_Rect rect5 = {0, 0, 98, 98};
+//    bool judgePosition = false;
+//    while (!quit) {
+//        while (SDL_PollEvent(&event)) {
+//            if (event.type == SDL_QUIT) {
+//                quit = true;
+//            }
+//            else if (event.type == SDL_KEYDOWN) {
+//                if (event.key.keysym.sym == SDLK_BACKSPACE) {
+//                    quit = true;
+//                }
+//            } else if (event.type == SDL_MOUSEMOTION) {
+//                if (mousePosition(0, 100, 0, 100) == true) {
+//                    judgePosition = true;
+//                }
+//            } else if (event.type == SDL_MOUSEBUTTONDOWN && judgePosition == true) {
+//                if (event.button.button == SDL_BUTTON_RIGHT) {
+//                    SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+//                    SDL_RenderFillRect(renderer, &rect5);
+//                    SDL_RenderPresent(renderer);
+//                } else if (event.button.button == SDL_BUTTON_LEFT) {
+//                    SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+//                    SDL_RenderFillRect(renderer, &rect5);
+//                    SDL_RenderPresent(renderer);
+//                }
+//            }
+//        }
+//    }
 
 
 //--------------
