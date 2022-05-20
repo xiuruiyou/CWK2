@@ -5,8 +5,9 @@
 #include "sdl.h"
 
 //这个函数的功能有读取现在的状态并且录入历史文件，并且把每一次的变化写入历史文件。在次数用完时，再用最新的状态覆盖存放现在的状态的文件。
-int change(int times, char *userFileName)
+int change(int times, char *userFileName,int speed)
 {
+    int s = speed;
     char USER[100];
     strcpy(USER, userFileName);
     strcat(USER, "-History.txt");
@@ -18,7 +19,7 @@ int change(int times, char *userFileName)
     row = getSize(USER1).row;
     int w[row][column];
 //    printf("%d,%d\n", row, column);
-    FILE *history = fopen(USER, "w");
+    FILE *history = fopen(USER, "w"); //create the file of history file.
     if (history == NULL) {
         printf("The file of history does not exist.\n");
         return -1;
@@ -39,13 +40,20 @@ int change(int times, char *userFileName)
     fprintf(history, "\n");
     fclose(file);
     board(USER1);
-//    for (int i = 0; i < row; ++i) {
-//        for (int j = 0; j < column; ++j) {
-//            printf("%d ", w[i][j]);
-//        }
-//        printf("\n");
-//    }
-//    printf("\n");
+
+    //read the state of cells which is changed by click
+    FILE *file12 = fopen("test.txt", "r");
+    if (file12 == NULL) {
+        printf("The file of nowState does not exist.\n");
+        return -1;
+    }
+    for (int i = 0; i < row; ++i) {
+        for (int j = 0; j < column; ++j) {
+            fscanf(file12, "%d,", &w[i][j]);
+        }
+        fscanf(file12, "\n");
+    }
+    fclose(file12);
 
 
     for (int k = 0; k < times; ++k) {
@@ -97,16 +105,14 @@ int change(int times, char *userFileName)
                 fprintf(history,"%d,",test[i][j]);
                 fprintf(file1,"%d,",test[i][j]);
             }
-//            printf("\n");
             fprintf(history,"\n");
             if(i!=row-1){
                 fprintf(file1,"\n");
             }
         }
-//        printf("\n");
         fprintf(history,"\n");
         fclose(file1);
-        board(USER1);
+        autoBoard(USER1, s);
         if (over(USER1,row,column)==0){
             break;
         }
@@ -118,8 +124,9 @@ int change(int times, char *userFileName)
     return 0;
 }
 
-int GoOnGame(int times, char *userFileName)
+int GoOnGame(int times, char *userFileName, int speed)
 {
+    int s = speed;
     char USER[100];
     strcpy(USER, userFileName);
     strcat(USER, "-History.txt");
@@ -156,6 +163,21 @@ int GoOnGame(int times, char *userFileName)
         return 0;
     }
     board(USER1);
+
+    //read the state of cells which is changed by click
+    FILE *file12 = fopen("test.txt", "r");
+    if (file12 == NULL) {
+        printf("The file of nowState does not exist.\n");
+        return -1;
+    }
+    for (int i = 0; i < row; ++i) {
+        for (int j = 0; j < column; ++j) {
+            fscanf(file12, "%d,", &w[i][j]);
+        }
+        fscanf(file12, "\n");
+    }
+    fclose(file12);
+
     for (int k = 0; k < times; ++k) {
         FILE *file1 = fopen(USER1, "w");
         if (file1 == NULL) {
@@ -215,7 +237,7 @@ int GoOnGame(int times, char *userFileName)
 //        printf("\n");
         fprintf(history,"\n");
         fclose(file1);
-        board(USER1);
+        autoBoard(USER1,s);
 //        if (over(USER1,row,column)==0){
 //            break;
 //        }

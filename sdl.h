@@ -17,6 +17,6 @@ int GameOver();
 void close();
 
 int cover();
-int board();
-bool mousePosition(int a, int b, int c, int d);
+int board(char *userFileName);
+int autoBoard(char *userFileName, int speed);
 #endif //EVOLUTION_C_SDL_H

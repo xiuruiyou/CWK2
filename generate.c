@@ -9,7 +9,7 @@ int generateTxt(int row, int column, char *userFileName)
     char USER[100];
     strcpy(USER, userFileName);
     strcat(USER, "-nowState.txt");
-    FILE *file = fopen(USER, "w");
+    FILE *file = fopen(USER, "w"); //create the file of nowState.
     if(file==NULL){
         printf("Can't open the file.\n");
         return -1;
@@ -66,30 +66,97 @@ void newGame(char *userFileName)
 {
     char USER[100];
     strcpy(USER, userFileName);
-    int height, width, times;
-    printf("Please enter the height of world: ");
-    scanf("%d", &height);
-    printf("Please enter the width of world: ");
-    scanf("%d", &width);
+    int height, width, times, speed;
+    bool h = false;
+    bool w = false;
+    bool s = false;
+    bool t = false;
+    while (!s){
+        printf("Please the speed(between 500 and 5000): ");
+        scanf("%d", &speed);
+        getchar();
+        if (speed > 5000){
+            printf("Too slow.\n");
+        } else if (speed < 500){
+            printf("Too fast.\n");
+        } else {
+            s = true;
+        }
+    }
+    while (!h){
+        printf("Please enter the height of world(between 4 and 30): ");
+        scanf("%d", &height);
+        getchar();
+        if (height > 30){
+            printf("Too high.\n");
+        } else if (height < 4){
+            printf("Too low.\n");
+        } else {
+            h = true;
+        }
+    }
+    while (!w){
+        printf("Please enter the width of world(between 4 and 30): ");
+        scanf("%d", &width);
+        getchar();
+        if (width > 30){
+            printf("Too wide.\n");
+        }else if (width < 4){
+            printf("Too narrow.\n");
+        }else{
+            w = true;
+        }
+    }
     generateTxt(height,width,USER);
-    printf("Please enter the times of evolution: ");
-    scanf("%d", &times);
-    getchar();
+    while (!t){
+        printf("Please enter the times(between 1 and 500): ");
+        scanf("%d", &times);
+        getchar();
+        if (times > 500){
+            printf("Too many.\n");
+        } else if (times < 1){
+            printf("Too little.\n");
+        } else {
+            t = true;
+        }
+    }
     printf("\n");
-    change(times,USER);
-//    board(USER);
+    change(times,USER, speed);
 }
 
 void OldGame(char *userFileName)
 {
     char USER[100];
     strcpy(USER, userFileName);
-    int times;
-    printf("Please enter the times of evolution: ");
-    scanf("%d", &times);
-    getchar();
+    int times, speed;
+    bool s = false;
+    bool t = false;
+    while (!s){
+        printf("Please the speed(between 500 and 5000): ");
+        scanf("%d", &speed);
+        getchar();
+        if (speed > 5000){
+            printf("Too slow.\n");
+        } else if (speed < 500){
+            printf("Too fast.\n");
+        } else {
+            s = true;
+        }
+    }
+    while (!t){
+        printf("Please enter the times(between 1 and 500): ");
+        scanf("%d", &times);
+        getchar();
+        if (times > 500){
+            printf("Too many.\n");
+        } else if (times < 1){
+            printf("Too little.\n");
+        } else {
+            t = true;
+        }
+    }
     printf("\n");
-    GoOnGame(times,USER);
+    GoOnGame(times,USER,speed);
 }
 
 int over(char *userFileName, int row, int column)
