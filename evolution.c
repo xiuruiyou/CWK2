@@ -6,8 +6,7 @@
 
 /*This function reads the current state and enters the history file, and writes each change to the
  history file. When the number of times runs out, the current state is overwritten with the latest state.*/
-int change(int times, char *userFileName,int speed)
-{
+int change(int times, char *userFileName, int speed) {
     int s = speed;
     char USER[100];
     strcpy(USER, userFileName);
@@ -32,10 +31,10 @@ int change(int times, char *userFileName,int speed)
     for (int i = 0; i < row; ++i) {
         for (int j = 0; j < column; ++j) {
             fscanf(file, "%d,", &w[i][j]);
-            fprintf(history, "%d,",w[i][j]);
+            fprintf(history, "%d,", w[i][j]);
         }
         fscanf(file, "\n");
-        fprintf(history,"\n");
+        fprintf(history, "\n");
     }
     fprintf(history, "\n");
     fclose(file);
@@ -78,15 +77,11 @@ int change(int times, char *userFileName,int speed)
 
     //clear color
     SDL_RenderClear(renderer);
-    //background grey
-    SDL_Rect rect1 = {0, 0, 600, 600};
-    SDL_RenderDrawRect(renderer, &rect1);
-    SDL_SetRenderDrawColor(renderer, 128, 128, 128, SDL_ALPHA_OPAQUE);
-    SDL_RenderFillRect(renderer, &rect1);
+
 
     int ccc = 0;
     int qwe;
-    while (ccc<times) {
+    while (ccc < times) {
         FILE *file1 = fopen(USER1, "w");
         if (file1 == NULL) {
             printf("The file of nowState does not exist.\n");
@@ -99,18 +94,26 @@ int change(int times, char *userFileName,int speed)
             switch (event.type) {
                 case SDL_KEYDOWN:
                     if (event.key.keysym.sym == SDLK_p) {
-                        printf("yes");
-                        if (qwe== 0)
+                        if (qwe == 0)
                             qwe = 1;
                         else if (qwe == 1)
                             qwe = 0;
+                        break;
+                    } else if (event.key.keysym.sym == SDLK_RIGHT) {
+                        if (s > 300) {
+                            s = s - 100;
+                        }
+                        break;
+                    } else if (event.key.keysym.sym == SDLK_LEFT) {
+                        if (s < 10000) {
+                            s = s + 100;
+                        }
                         break;
                     } else {
                         break;
                     }
                 case SDL_QUIT:
                     exit(0);
-
             }
         }
 
@@ -154,17 +157,22 @@ int change(int times, char *userFileName,int speed)
         ccc++;
         for (int i = 0; i < row; ++i) {
             for (int j = 0; j < column; ++j) {
-                fprintf(history,"%d,",test[i][j]);
-                fprintf(file1,"%d,",test[i][j]);
+                fprintf(history, "%d,", test[i][j]);
+                fprintf(file1, "%d,", test[i][j]);
             }
-            fprintf(history,"\n");
-            if(i!=row-1){
-                fprintf(file1,"\n");
+            fprintf(history, "\n");
+            if (i != row - 1) {
+                fprintf(file1, "\n");
             }
         }
-        fprintf(history,"\n");
+        fprintf(history, "\n");
         fclose(file1);
 
+        //background grey
+        SDL_Rect rect1 = {0, 0, 600, 600};
+        SDL_RenderDrawRect(renderer, &rect1);
+        SDL_SetRenderDrawColor(renderer, 128, 128, 128, SDL_ALPHA_OPAQUE);
+        SDL_RenderFillRect(renderer, &rect1);
         // black and white
         for (int i = 0; i < row; ++i) {
             for (int j = 0; j < column; ++j) {
@@ -186,7 +194,7 @@ int change(int times, char *userFileName,int speed)
 
         SDL_Delay(s);
 
-        if (over(USER1,row,column)==0){
+        if (over(USER1, row, column) == 0) {
             break;
         }
     }
@@ -201,14 +209,13 @@ int change(int times, char *userFileName,int speed)
 
     fclose(history);
 
-    if (over(USER1,row,column)==0){
+    if (over(USER1, row, column) == 0) {
         GameOver();
     }
     return 0;
 }
 
-int GoOnGame(int times, char *userFileName, int speed)
-{
+int GoOnGame(int times, char *userFileName, int speed) {
     int s = speed;
     char USER[100];
     strcpy(USER, userFileName);
@@ -233,14 +240,11 @@ int GoOnGame(int times, char *userFileName, int speed)
     for (int i = 0; i < row; ++i) {
         for (int j = 0; j < column; ++j) {
             fscanf(file, "%d,", &w[i][j]);
-//            fprintf(history, "%d,",w[i][j]);
         }
         fscanf(file, "\n");
-//        fprintf(history,"\n");
     }
-//    fprintf(history, "\n");
     fclose(file);
-    if (over(USER1,row,column)==0){
+    if (over(USER1, row, column) == 0) {
         printf("You must restart the game.\n");
         return 0;
     }
@@ -281,14 +285,15 @@ int GoOnGame(int times, char *userFileName, int speed)
     //3 set renderer color (set background color)
     SDL_SetRenderDrawColor(renderer, 255, 0, 255, SDL_ALPHA_OPAQUE);
 
-//    //4 clear color
+    //4 clear color
     SDL_RenderClear(renderer);
-//    //background grey
+    //background grey
     SDL_Rect rect1 = {0, 0, 600, 600};
     SDL_RenderDrawRect(renderer, &rect1);
     SDL_SetRenderDrawColor(renderer, 128, 128, 128, SDL_ALPHA_OPAQUE);
     SDL_RenderFillRect(renderer, &rect1);
 
+    int qwe = 0;
     for (int k = 0; k < times; ++k) {
         FILE *file1 = fopen(USER1, "w");
         if (file1 == NULL) {
@@ -297,6 +302,34 @@ int GoOnGame(int times, char *userFileName, int speed)
         }
         int count;
         int test[row][column];//change
+
+        while (SDL_PollEvent(&event)) {
+            switch (event.type) {
+                case SDL_KEYDOWN:
+                    if (event.key.keysym.sym == SDLK_p) {
+                        if (qwe == 0)
+                            qwe = 1;
+                        else if (qwe == 1)
+                            qwe = 0;
+                        break;
+                    } else if (event.key.keysym.sym == SDLK_RIGHT) {
+                        if (s > 300) {
+                            s = s - 100;
+                        }
+                        break;
+                    } else if (event.key.keysym.sym == SDLK_LEFT) {
+                        if (s < 10000) {
+                            s = s + 100;
+                        }
+                        break;
+                    } else {
+                        break;
+                    }
+                case SDL_QUIT:
+                    exit(0);
+            }
+        }
+
         for (int i = 0; i < row; ++i) {
             for (int j = 0; j < column; ++j) {
                 if (i == 0 && j == 0) {
@@ -335,27 +368,17 @@ int GoOnGame(int times, char *userFileName, int speed)
         memcpy(w, test, sizeof(int) * column * row);
         for (int i = 0; i < row; ++i) {
             for (int j = 0; j < column; ++j) {
-//                printf("%d ", test[i][j]);
-                fprintf(history,"%d,",test[i][j]);
-                fprintf(file1,"%d,",test[i][j]);
+                fprintf(history, "%d,", test[i][j]);
+                fprintf(file1, "%d,", test[i][j]);
             }
-//            printf("\n");
-            fprintf(history,"\n");
-            if(i!=row-1){
-                fprintf(file1,"\n");
+            fprintf(history, "\n");
+            if (i != row - 1) {
+                fprintf(file1, "\n");
             }
         }
-//        printf("\n");
-        fprintf(history,"\n");
+        fprintf(history, "\n");
         fclose(file1);
-//        autoBoard(USER1,s);
-        // black and white
-//        FILE *file = fopen(USER1, "r");
-//        if (file == NULL) {
-//            printf("The file of nowState does not exist.\n");
-//            return -1;
-//        }
-//        int w[row][column];
+
         for (int i = 0; i < row; ++i) {
             for (int j = 0; j < column; ++j) {
 //                fscanf(file, "%d,", &w[i][j]);
@@ -378,9 +401,7 @@ int GoOnGame(int times, char *userFileName, int speed)
 
 
         SDL_Delay(s);
-//        if (over(USER1,row,column)==0){
-//            break;
-//        }
+
     }
     fclose(history);
     if (renderer) {
@@ -390,7 +411,7 @@ int GoOnGame(int times, char *userFileName, int speed)
         SDL_DestroyWindow(sdl_window);
     }
     SDL_Quit();
-    if (over(USER1,row,column)==0){
+    if (over(USER1, row, column) == 0) {
         GameOver();
     }
     return 0;

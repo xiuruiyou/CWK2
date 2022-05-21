@@ -158,12 +158,12 @@ void newAllDeadGame(char *userFileName)
     bool s = false;
     bool t = false;
     while (!s){
-        printf("Please the speed(between 500 and 5000): ");
+        printf("Please the speed(between 200 and 5000): ");
         scanf("%d", &speed);
         getchar();
         if (speed > 5000){
             printf("Too slow.\n");
-        } else if (speed < 500){
+        } else if (speed < 200){
             printf("Too fast.\n");
         } else {
             s = true;
