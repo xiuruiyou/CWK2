@@ -43,7 +43,7 @@ int change(int times, char *userFileName, int speed) {
     //read the state of cells which is changed by click
     FILE *file12 = fopen("test.txt", "r");
     if (file12 == NULL) {
-        printf("The file of nowState does not exist.\n");
+        printf("The file of NowState does not exist.\n");
         return -1;
     }
     for (int i = 0; i < row; ++i) {
@@ -82,18 +82,11 @@ int change(int times, char *userFileName, int speed) {
     int ccc = 0;
     int qwe;
     while (ccc < times) {
-        FILE *file1 = fopen(USER1, "w");
-        if (file1 == NULL) {
-            printf("The file of nowState does not exist.\n");
-            return -1;
-        }
-        int count;
-        int test[row][column];//change
 
         while (SDL_PollEvent(&event)) {
             switch (event.type) {
                 case SDL_KEYDOWN:
-                    if (event.key.keysym.sym == SDLK_p) {
+                    if (event.key.keysym.sym == SDLK_UP) {//Control the speed through the keyboard
                         if (qwe == 0)
                             qwe = 1;
                         else if (qwe == 1)
@@ -117,82 +110,87 @@ int change(int times, char *userFileName, int speed) {
             }
         }
 
-
-        for (int i = 0; i < row; ++i) {
-            for (int j = 0; j < column; ++j) {
-                if (i == 0 && j == 0) {
-                    count = w[i][j + 1] + w[i + 1][j] + w[i + 1][j + 1];
-                } else if (i == 0 && j != 0 && j != column - 1) {
-                    count = w[i][j - 1] + w[i][j + 1] + w[i + 1][j - 1] + w[i + 1][j] + w[i + 1][j + 1];
-                } else if (i == 0 && j == column - 1) {
-                    count = w[i][j - 1] + w[i + 1][j - 1] + w[i + 1][j];
-                } else if (j == column - 1 && i != 0 && i != row - 1) {
-                    count = w[i - 1][j - 1] + w[i - 1][j] + w[i][j - 1] + w[i + 1][j - 1] + w[i + 1][j];
-                } else if (j == column - 1 && i == row - 1) {
-                    count = w[i - 1][j - 1] + w[i - 1][j] + w[i][j - 1];
-                } else if (i == row - 1 && j != 0 && j != column - 1) {
-                    count = w[i - 1][j - 1] + w[i - 1][j] + w[i - 1][j + 1] + w[i][j - 1] + w[i][j + 1];
-                } else if (i == row - 1 && j == 0) {
-                    count = w[i - 1][j] + w[i - 1][j + 1] + w[i][j + 1];
-                } else if (j == 0 && i != 0 && i != row - 1) {
-                    count = w[i - 1][j] + w[i - 1][j + 1] + w[i][j + 1] + w[i + 1][j] + w[i + 1][j + 1];
-                } else {
-                    count = w[i - 1][j - 1] + w[i - 1][j] + w[i - 1][j + 1] + w[i][j - 1] + w[i][j + 1] +
-                            w[i + 1][j - 1] + w[i + 1][j] + w[i + 1][j + 1];
-                }
-                switch (count) {
-                    case 2:
-                        test[i][j] = w[i][j];
-                        break;
-                    case 3:
-                        test[i][j] = 1;
-                        break;
-                    default:
-                        test[i][j] = 0;
-                        break;
+            int count;
+            int test[row][column];//change
+            FILE *file1 = fopen(USER1, "w");
+            if (file1 == NULL) {
+                printf("The file of nowState does not exist.\n");
+                return -1;
+            }
+            //Count the number of living cells around each cell
+            for (int i = 0; i < row; ++i) {
+                for (int j = 0; j < column; ++j) {
+                    if (i == 0 && j == 0) {
+                        count = w[i][j + 1] + w[i + 1][j] + w[i + 1][j + 1];
+                    } else if (i == 0 && j != 0 && j != column - 1) {
+                        count = w[i][j - 1] + w[i][j + 1] + w[i + 1][j - 1] + w[i + 1][j] + w[i + 1][j + 1];
+                    } else if (i == 0 && j == column - 1) {
+                        count = w[i][j - 1] + w[i + 1][j - 1] + w[i + 1][j];
+                    } else if (j == column - 1 && i != 0 && i != row - 1) {
+                        count = w[i - 1][j - 1] + w[i - 1][j] + w[i][j - 1] + w[i + 1][j - 1] + w[i + 1][j];
+                    } else if (j == column - 1 && i == row - 1) {
+                        count = w[i - 1][j - 1] + w[i - 1][j] + w[i][j - 1];
+                    } else if (i == row - 1 && j != 0 && j != column - 1) {
+                        count = w[i - 1][j - 1] + w[i - 1][j] + w[i - 1][j + 1] + w[i][j - 1] + w[i][j + 1];
+                    } else if (i == row - 1 && j == 0) {
+                        count = w[i - 1][j] + w[i - 1][j + 1] + w[i][j + 1];
+                    } else if (j == 0 && i != 0 && i != row - 1) {
+                        count = w[i - 1][j] + w[i - 1][j + 1] + w[i][j + 1] + w[i + 1][j] + w[i + 1][j + 1];
+                    } else {
+                        count = w[i - 1][j - 1] + w[i - 1][j] + w[i - 1][j + 1] + w[i][j - 1] + w[i][j + 1] +
+                                w[i + 1][j - 1] + w[i + 1][j] + w[i + 1][j + 1];
+                    }
+                    switch (count) {
+                        case 2:
+                            test[i][j] = w[i][j];
+                            break;
+                        case 3:
+                            test[i][j] = 1;
+                            break;
+                        default:
+                            test[i][j] = 0;
+                            break;
+                    }
                 }
             }
-        }
-        memcpy(w, test, sizeof(int) * column * row);
-        ccc++;
-        for (int i = 0; i < row; ++i) {
-            for (int j = 0; j < column; ++j) {
-                fprintf(history, "%d,", test[i][j]);
-                fprintf(file1, "%d,", test[i][j]);
+            memcpy(w, test, sizeof(int) * column * row);
+            ccc++;
+            for (int i = 0; i < row; ++i) {
+                for (int j = 0; j < column; ++j) {
+                    fprintf(history, "%d,", test[i][j]);
+                    fprintf(file1, "%d,", test[i][j]);
+                }
+                fprintf(history, "\n");
+                if (i != row - 1) {
+                    fprintf(file1, "\n");
+                }
             }
             fprintf(history, "\n");
-            if (i != row - 1) {
-                fprintf(file1, "\n");
-            }
-        }
-        fprintf(history, "\n");
-        fclose(file1);
+            fclose(file1);
 
-        //background grey
-        SDL_Rect rect1 = {0, 0, 600, 600};
-        SDL_RenderDrawRect(renderer, &rect1);
-        SDL_SetRenderDrawColor(renderer, 128, 128, 128, SDL_ALPHA_OPAQUE);
-        SDL_RenderFillRect(renderer, &rect1);
-        // black and white
-        for (int i = 0; i < row; ++i) {
-            for (int j = 0; j < column; ++j) {
-                SDL_Rect rect = {j * width, i * height, width - 2.0, height - 2.0};
-                SDL_RenderDrawRect(renderer, &rect);
-                if (w[i][j] == 0) {
-                    SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
-                    SDL_RenderFillRect(renderer, &rect);
-                } else if (w[i][j] == 1) {
-                    SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
-                    SDL_RenderFillRect(renderer, &rect);
+            //background grey
+            SDL_Rect rect1 = {0, 0, 600, 600};
+            SDL_RenderDrawRect(renderer, &rect1);
+            SDL_SetRenderDrawColor(renderer, 128, 128, 128, SDL_ALPHA_OPAQUE);
+            SDL_RenderFillRect(renderer, &rect1);
+            // black and white
+            for (int i = 0; i < row; ++i) {
+                for (int j = 0; j < column; ++j) {
+                    SDL_Rect rect = {j * width, i * height, width - 2.0, height - 2.0};
+                    SDL_RenderDrawRect(renderer, &rect);
+                    if (w[i][j] == 0) {
+                        SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+                        SDL_RenderFillRect(renderer, &rect);
+                    } else if (w[i][j] == 1) {
+                        SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+                        SDL_RenderFillRect(renderer, &rect);
+                    }
                 }
             }
-        }
-        fclose(file);
+            // show the renderer window
+            SDL_RenderPresent(renderer);
 
-        // show the renderer window
-        SDL_RenderPresent(renderer);
-
-        SDL_Delay(s);
+            SDL_Delay(s);
 
         if (over(USER1, row, column) == 0) {
             break;
@@ -215,6 +213,7 @@ int change(int times, char *userFileName, int speed) {
     return 0;
 }
 
+//It is same as newGame function
 int GoOnGame(int times, char *userFileName, int speed) {
     int s = speed;
     char USER[100];
@@ -381,7 +380,6 @@ int GoOnGame(int times, char *userFileName, int speed) {
 
         for (int i = 0; i < row; ++i) {
             for (int j = 0; j < column; ++j) {
-//                fscanf(file, "%d,", &w[i][j]);
                 SDL_Rect rect = {j * width, i * height, width - 2.0, height - 2.0};
                 SDL_RenderDrawRect(renderer, &rect);
                 if (w[i][j] == 0) {
@@ -392,7 +390,6 @@ int GoOnGame(int times, char *userFileName, int speed) {
                     SDL_RenderFillRect(renderer, &rect);
                 }
             }
-//            fscanf(file, "\n");
         }
         fclose(file);
 

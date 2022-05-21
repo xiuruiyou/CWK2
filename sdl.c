@@ -26,14 +26,14 @@ bool init() {
         printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
         success = false;
     } else {
-        //Create window
+        //Create the window
         gWindow = SDL_CreateWindow("Loading for games", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH,
                                    SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
         if (gWindow == NULL) {
             printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
             success = false;
         } else {
-            //Get window surface
+            //Get the window's surface
             gScreenSurface = SDL_GetWindowSurface(gWindow);
         }
     }
@@ -103,7 +103,6 @@ int cover() {
             SDL_Delay(1500);
         }
     }
-//    mousePosition();
     //Free resources and close SDL
     close();
 
@@ -139,12 +138,10 @@ int GameOver() {
 int board(char *userFileName) {
     char USER1[100];
     strcpy(USER1, userFileName);
-//    strcat(USER1, "-nowState.txt");
     int column = getSize(USER1).column;
     int row = getSize(USER1).row;
     double width = 600.0 / column;
     double height = 600.0 / row;
-//    printf("%f, %f\n", width, height);
     SDL_Window *sdl_window;
     SDL_Renderer *renderer;
     int quit = false;
@@ -152,20 +149,20 @@ int board(char *userFileName) {
     // 0 init sdl
     SDL_Init(SDL_INIT_VIDEO);
 
-    //1 create window
+    //create window
     sdl_window = SDL_CreateWindow("TheGameOfLife",
                                   SDL_WINDOWPOS_UNDEFINED,
                                   SDL_WINDOWPOS_UNDEFINED,
                                   600,
                                   600,
                                   SDL_WINDOW_SHOWN);
-    //2 create renderer
+    //create renderer
     renderer = SDL_CreateRenderer(sdl_window, -1, SDL_RENDERER_SOFTWARE);
 
-    //3 set renderer color (set background color  Blue)
+    //set renderer color (set background color  Blue)
     SDL_SetRenderDrawColor(renderer, 255, 0, 255, SDL_ALPHA_OPAQUE);
 
-    //4 clear color
+    //clear color
     SDL_RenderClear(renderer);
 
     //background grey

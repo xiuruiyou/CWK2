@@ -4,6 +4,8 @@
 #include "generate.h"
 #include "evolution.h"
 #include "sdl.h"
+
+//Cells that automatically generate random life and death
 int generateTxt(int row, int column, char *userFileName)
 {
     char USER[100];
@@ -28,6 +30,7 @@ int generateTxt(int row, int column, char *userFileName)
     return 0;
 }
 
+//The system automatically generates all dead cells
 int generateAllDeadTxt(int row, int column, char *userFileName)
 {
     char USER[100];
@@ -52,6 +55,7 @@ int generateAllDeadTxt(int row, int column, char *userFileName)
     return 0;
 }
 
+//Calculate the size of the world
 world_size getSize(char *userFileName1)
 {
     char USER1[100];
@@ -86,6 +90,7 @@ world_size getSize(char *userFileName1)
     return size;
 }
 
+//Start a new random game
 void newRandomGame(char *userFileName)
 {
     char USER[100];
@@ -148,6 +153,7 @@ void newRandomGame(char *userFileName)
     change(times,USER, speed);
 }
 
+//Start a game of cell death
 void newAllDeadGame(char *userFileName)
 {
     char USER[100];
@@ -210,6 +216,7 @@ void newAllDeadGame(char *userFileName)
     change(times,USER, speed);
 }
 
+//Pick up where we left off
 void OldGame(char *userFileName)
 {
     char USER[100];

@@ -21,12 +21,11 @@ void user_page(char *userFileName)
     int option;
     while(1)
     {
-        printf("\n Please choose an option:\n 1) New Random Game\n 2) New All Dead Game\n 3) The Last game\n 4) Log out\n   Option: ");
+        printf("\n Please choose an option:\n 1) New Random Game\n 2) New All Dead Game\n 3) The Last game\n 4) Exit\n   Option: ");
         option = option1();
         //User registration.
         if( option == 1 )
         {
-//            printf("1\n");
             newRandomGame(USER);
         }
         else if(option == 2)
@@ -41,7 +40,7 @@ void user_page(char *userFileName)
             //Exit the program.
         else if( option == 4 )
         {
-            break;
+            exit(0);
         }
         else
             printf("\nSorry, the option you entered was invalid, please try again.\n");

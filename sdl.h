@@ -18,5 +18,4 @@ void close();
 
 int cover();
 int board(char *userFileName);
-//int autoBoard(char *userFileName, int speed);
 #endif //EVOLUTION_C_SDL_H

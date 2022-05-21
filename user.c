@@ -1,11 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <conio.h>
 #include "user.h"
 #include "interface.h"
 
-
+//This part of the code is similar to the previous job, providing user registration and login functions
 int output(linklist head, char userFile[40]) //Put the user's account number and password into the file
 {
     linklist p = head->next1;
@@ -70,18 +69,6 @@ void login(linklist head) //User login.
         printf("The user does not exist.\n");
     } else {
         printf("Please enter a password:");
-//        int x = 0;
-//        char c;
-//        char Password[20];
-//        while(x < 20 && c != 13)
-//        {
-//            c = getch();
-//            Password[x++] = c;
-//            if(c != 13)
-//                putchar('*');
-//        }
-//        Password[x] = '\0';
-//        printf("\n%s\n",Password);
         scanf("%s", p->password);
         getchar();
 
