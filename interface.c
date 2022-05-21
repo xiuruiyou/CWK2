@@ -21,21 +21,25 @@ void user_page(char *userFileName)
     int option;
     while(1)
     {
-        printf("\n Please choose an option:\n 1) New Game\n 2) The Last game\n 3) Log out\n   Option: ");
+        printf("\n Please choose an option:\n 1) New Random Game\n 2) New All Dead Game\n 3) The Last game\n 4) Log out\n   Option: ");
         option = option1();
         //User registration.
         if( option == 1 )
         {
 //            printf("1\n");
-            newGame(USER);
+            newRandomGame(USER);
+        }
+        else if(option == 2)
+        {
+            newAllDeadGame(USER);
         }
             //A user logs in to the system page of the user.
-        else if( option == 2 )
+        else if( option == 3 )
         {
             OldGame(USER);
         }
             //Exit the program.
-        else if( option == 3 )
+        else if( option == 4 )
         {
             break;
         }
